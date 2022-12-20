@@ -59,6 +59,28 @@ class MyLayout(Widget):
         # Ajouter le /
         self.ids.calc_input.text = f'{prior}/'
 
+    # Rajoute le point
+    def point(self):
+        prior = self.ids.calc_input.text
+        if "." in prior:
+            pass
+        else:
+            prior = f'{prior}.'
+            self.ids.calc_input.text = prior
+
+    # Supprimer le dernier caractère
+    def remove(self):
+        prior = self.ids.calc_input.text
+        prior = prior[:-1]  # Supprime le dernier caractère de la calc
+        self.ids.calc_input.text = prior
+
+    def pos_neg(self):
+        prior = self.ids.calc_input.text
+        if '-' in prior:
+            self.ids.calc_input.text = f'{prior.replace("-","")}'
+        else:
+            self.ids.calc_input.text = f'-{prior}'
+
     # Égalisation
     def equals(self):
         # variable contenant ce qu'il y a dans le text_input
@@ -91,12 +113,13 @@ class MyLayout(Widget):
         # Division
         elif '/' in prior:
             num_list = prior.split('/')
-            res = pow(float(num_list[0]), 2) #Pour la division
+            res = pow(float(num_list[0]), 2)  # Pour la division
             for num in num_list:
                 res = res / float(num)
             self.ids.calc_input.text = str(res)
         else:
             pass
+
 
 class CalculatorApp(App):
     def build(self):
