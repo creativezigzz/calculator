@@ -23,6 +23,9 @@ class MyLayout(Widget):
         # variable contenant ce qu'il y a dans le text_input
         prior = self.ids.calc_input.text
 
+        # Test pour les erreurs
+        if "ERROR" in prior:
+            prior = ''
         #  Determiner si 0
         if prior == '0':
             self.ids.calc_input.text = ''
@@ -50,7 +53,7 @@ class MyLayout(Widget):
         # variable contenant ce qu'il y a dans le text_input
         prior = self.ids.calc_input.text
         # Ajouter le *
-        self.ids.calc_input.text = f'{prior}X'
+        self.ids.calc_input.text = f'{prior}*'
 
     # Division
     def divide(self):
@@ -77,7 +80,7 @@ class MyLayout(Widget):
     def pos_neg(self):
         prior = self.ids.calc_input.text
         if '-' in prior:
-            self.ids.calc_input.text = f'{prior.replace("-","")}'
+            self.ids.calc_input.text = f'{prior.replace("-", "")}'
         else:
             self.ids.calc_input.text = f'-{prior}'
 
@@ -85,38 +88,43 @@ class MyLayout(Widget):
     def equals(self):
         # variable contenant ce qu'il y a dans le text_input
         prior = self.ids.calc_input.text
-        # Ajouter le =
-        # Enlever le signe du string
-
-        # Addition
-        if "+" in prior:
-            num_list = prior.split("+")
-            res = 0
-            for num in num_list:
-                res += float(num)
-
+        try:
+            # On évalue avec eval
+            res = eval(prior)
+            # Réponse
             self.ids.calc_input.text = str(res)
-        # Soustraction
-        elif "-" in prior:
-            num_list = prior.split("-")
-            res = float(num_list[0]) * 2  # premier positif *2 comme ça on le soustrait 1 fois
-            for num in num_list:
-                res = res - float(num)
-            self.ids.calc_input.text = str(res)
-        # Multiplication
-        elif 'X' in prior:
-            num_list = prior.split('X')
-            res = 1
-            for num in num_list:
-                res = res * float(num)
-            self.ids.calc_input.text = str(res)
-        # Division
-        elif '/' in prior:
-            num_list = prior.split('/')
-            res = pow(float(num_list[0]), 2)  # Pour la division
-            for num in num_list:
-                res = res / float(num)
-            self.ids.calc_input.text = str(res)
+        except:
+            self.ids.calc_input.text = "ERROR"
+        # # Enlever le signe du string
+        # # Addition
+        # if "+" in prior:
+        #     num_list = prior.split("+")
+        #     res = 0
+        #     for num in num_list:
+        #         res += float(num)
+        #
+        #     self.ids.calc_input.text = str(res)
+        # # Soustraction
+        # elif "-" in prior:
+        #     num_list = prior.split("-")
+        #     res = float(num_list[0]) * 2  # premier positif *2 comme ça on le soustrait 1 fois
+        #     for num in num_list:
+        #         res = res - float(num)
+        #     self.ids.calc_input.text = str(res)
+        # # Multiplication
+        # elif 'X' in prior:
+        #     num_list = prior.split('*')
+        #     res = 1
+        #     for num in num_list:
+        #         res = res * float(num)
+        #     self.ids.calc_input.text = str(res)
+        # # Division
+        # elif '/' in prior:
+        #     num_list = prior.split('/')
+        #     res = pow(float(num_list[0]), 2)  # Pour la division
+        #     for num in num_list:
+        #         res = res / float(num)
+        #     self.ids.calc_input.text = str(res)
         else:
             pass
 
