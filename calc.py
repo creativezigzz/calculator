@@ -50,7 +50,7 @@ class MyLayout(Widget):
         # variable contenant ce qu'il y a dans le text_input
         prior = self.ids.calc_input.text
         # Ajouter le *
-        self.ids.calc_input.text = f'{prior}*'
+        self.ids.calc_input.text = f'{prior}X'
 
     # Division
     def divide(self):
@@ -71,10 +71,32 @@ class MyLayout(Widget):
             num_list = prior.split("+")
             res = 0
             for num in num_list:
-                res += int(num)
+                res += float(num)
 
             self.ids.calc_input.text = str(res)
-
+        # Soustraction
+        elif "-" in prior:
+            num_list = prior.split("-")
+            res = float(num_list[0]) * 2  # premier positif *2 comme ça on le soustrait 1 fois
+            for num in num_list:
+                res = res - float(num)
+            self.ids.calc_input.text = str(res)
+        # Multiplication
+        elif 'X' in prior:
+            num_list = prior.split('X')
+            res = 1
+            for num in num_list:
+                res = res * float(num)
+            self.ids.calc_input.text = str(res)
+        # Division
+        elif '/' in prior:
+            num_list = prior.split('/')
+            res = pow(float(num_list[0]), 2) #Pour la division
+            for num in num_list:
+                res = res / float(num)
+            self.ids.calc_input.text = str(res)
+        else:
+            pass
 
 class CalculatorApp(App):
     def build(self):
